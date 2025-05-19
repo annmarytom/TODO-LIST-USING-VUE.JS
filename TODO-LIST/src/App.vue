@@ -41,14 +41,30 @@ export default {
         text: taskText,
         completed: false,
       });
+      this.saveTasks();
     },
     deleteTask(id) {
       this.tasks = this.tasks.filter(task => task.id !== id);
+      this.saveTasks();
     },
     toggleStatus(id) {
       const task = this.tasks.find(task => task.id === id);
       if (task) task.completed = !task.completed;
+      this.saveTasks();
     },
+  
+  saveTasks() {
+      localStorage.setItem('vue-tasks', JSON.stringify(this.tasks));
+    },
+    loadTasks() {
+      const stored = localStorage.getItem('vue-tasks');
+      if (stored) {
+        this.tasks = JSON.parse(stored);
+      }
+    },
+  },
+  created() {
+    this.loadTasks(); 
   },
 };
 </script>
@@ -62,6 +78,7 @@ export default {
   text-align: center;
   background-color: rgb(228, 139, 30);
   border: 5px solid white;
+  border-radius: 10px;
 }
 
 .status {
