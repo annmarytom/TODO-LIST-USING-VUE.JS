@@ -1,0 +1,70 @@
+<template>
+  <div class="container">
+    <h1>To-Do List</h1>
+    <TaskInput @add-task="addTask" />
+
+    <div class="status">
+      ✅ Completed: {{ completedTasks.length }} |
+      ❌ Incomplete: {{ incompleteTasks.length }}
+    </div>
+
+    <TaskList title="Incomplete Tasks" :tasks="incompleteTasks" @delete-task="deleteTask"
+      @toggle-status="toggleStatus" />
+
+    <TaskList title="Completed Tasks" :tasks="completedTasks" @delete-task="deleteTask" @toggle-status="toggleStatus" />
+  </div>
+</template>
+
+<script>
+import TaskInput from './components/TaskInput.vue';
+import TaskList from './components/TaskList.vue';
+
+export default {
+  components: { TaskInput, TaskList },
+  data() {
+    return {
+      tasks: [],
+    };
+  },
+  computed: {
+    completedTasks() {
+      return this.tasks.filter(task => task.completed);
+    },
+    incompleteTasks() {
+      return this.tasks.filter(task => !task.completed);
+    },
+  },
+  methods: {
+    addTask(taskText) {
+      this.tasks.push({
+        id: Date.now(),
+        text: taskText,
+        completed: false,
+      });
+    },
+    deleteTask(id) {
+      this.tasks = this.tasks.filter(task => task.id !== id);
+    },
+    toggleStatus(id) {
+      const task = this.tasks.find(task => task.id === id);
+      if (task) task.completed = !task.completed;
+    },
+  },
+};
+</script>
+
+<style>
+.container {
+  max-width: 600px;
+  margin: auto;
+  padding: 1rem;
+  font-family: sans-serif;
+  text-align: center;
+  background-color: rgb(228, 139, 30);
+  border: 5px solid white;
+}
+
+.status {
+  margin: 1rem 0;
+}
+</style>
