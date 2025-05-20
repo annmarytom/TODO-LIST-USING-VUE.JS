@@ -4,7 +4,7 @@
     <TaskInput @add-task="addTask" />
 
     <div class="status">
-      ✅ Completed: {{ completedTasks.length }} |
+      ✅ Completed: {{ completedTasks.length }} | 
       ❌ Incomplete: {{ incompleteTasks.length }}
     </div>
 
@@ -76,12 +76,19 @@ export default {
   padding: 1rem;
   font-family: sans-serif;
   text-align: center;
-  background-color: rgb(228, 139, 30);
+  background-color: #1a1c84;
   border: 5px solid white;
   border-radius: 10px;
 }
-
+.container h1{
+  color: #FFD700;
+}
 .status {
   margin: 1rem 0;
+  color:whitesmoke;
+  display: flex;
+  gap:20px;
+  justify-content: center;
+  align-items: center;
 }
 </style>

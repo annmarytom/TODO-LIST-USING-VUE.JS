@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="input-area">
     <input type="text" v-model="task" placeholder="Enter a task..." />
-    <button :disabled="!task.trim()" @click="submitTask">ADD TASK</button>
+    <button :disabled="!task.trim()" @click="submitTask">+</button>
   </div>
 </template>
 
@@ -22,26 +22,42 @@ export default {
 </script>
 
 <style scoped>
+.input-area {
+  position: relative;
+  padding: 3px;
+}
+
 input {
   padding: 0.5rem;
-  width: 75%;
-  height: 25px;
-  border-radius: 10px;
+  width: 97%;
+  height: 40px;
+  border-radius: 40px;
   border: none;
+  background-color: rgba(255, 255, 255, 0.08);
+  color: white;
+  font-size: 20px;
 }
 
 button {
-  height: 44px;
-  width: 20%;
-  margin-left: 10px;
-  padding: 0.5rem 1rem;
-  border-radius: 10px;
+  position: absolute;
+  top: 13px;
+  left: 550px;
+  height: 35px;
+  width: 6%;
+  padding: 0.4rem;
+  border-radius: 30px;
   border: none;
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 600;
+  background-color: #A0C4FF;
+  color: white;
+  cursor: pointer;
 }
 
 button:disabled {
-  background-color: #ccc;
+  background-color: #3e79ae;
+  color: gray;
+  border: none;
+
 }
 </style>

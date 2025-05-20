@@ -1,7 +1,9 @@
 <template>
   <div class="task">
-    <input type="checkbox" :checked="task.completed" @change="$emit('toggle-status')" />
-    <span :class="{ done: task.completed }">{{ task.text }}</span>
+    <div class="input-area">
+      <input type="checkbox" :checked="task.completed" @change="$emit('toggle-status')" />
+      <span :class="{ done: task.completed }">{{ task.text }}</span>
+    </div>
     <button @click="$emit('delete-task')"><i class="ri-delete-bin-line delete-icon"></i></button>
   </div>
 </template>
@@ -18,12 +20,18 @@ export default {
   align-items: center;
   justify-content: space-between;
   padding: 0.5rem;
-  border-bottom: 1px solid #ccc;
+  /* border-bottom: 1px solid #ccc; */
+  color: rgb(212, 206, 206);
+  ;
 }
-
+.input-area{
+  display: flex;
+  
+  gap:10px;
+}
 .done {
   text-decoration: line-through;
-  color: gray;
+  color: rgb(212, 206, 206);
 }
 
 button {
@@ -33,7 +41,7 @@ button {
 }
 
 .delete-icon {
-  color: red;
+  color: rgb(247, 232, 232);
   font-size: 20px;
 }
 </style>

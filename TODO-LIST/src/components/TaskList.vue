@@ -5,8 +5,9 @@
             <TaskItem v-for="task in tasks" :key="task.id" :task="task" @delete-task="$emit('delete-task', task.id)"
                 @toggle-status="$emit('toggle-status', task.id)" />
         </div>
+        
         <div v-else>
-            <img src="../assets/ae8ac2fa217d23aadcc913989fcc34a2.jpg" alt="Empty" width="150" />
+            <img src="../assets/folder.png" alt="Empty" width="150" />
 
         </div>
     </div>
@@ -23,8 +24,11 @@ export default {
 
 <style scoped>
 .tasklist-div {
-    background-color: rgb(243, 239, 224);
-    border-radius: 10px;
+    background-color:#2a3184;
+    border-radius: 40px;
+    padding: 0px 20px 20px 20px;
+    margin: 10px 0px;
+    
 }
 
 img {
