@@ -33,7 +33,7 @@ input {
   height: 40px;
   border-radius: 40px;
   border: none;
-  background-color: rgba(255, 255, 255, 0.08);
+  background-color: rgb(4 28 2 / 19%);
   color: white;
   font-size: 20px;
 }

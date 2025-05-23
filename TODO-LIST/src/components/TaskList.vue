@@ -7,7 +7,7 @@
         </div>
         
         <div v-else>
-            <img src="../assets/folder.png" alt="Empty" width="150" />
+            <img src="../assets/folder.jpg" alt="Empty" width="150" />
 
         </div>
     </div>

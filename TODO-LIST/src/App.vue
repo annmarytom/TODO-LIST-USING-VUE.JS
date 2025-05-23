@@ -1,32 +1,54 @@
+
+
 <template>
   <div class="container">
     <h1>To-Do List</h1>
-    <TaskInput @add-task="addTask" />
 
+    <!-- Navigation -->
+    <nav class="nav">
+      <a href="#/" :class="{ active: view === 'all' }"> Tasks</a>
+      <a href="#/completed" :class="{ active: view === 'completed' }"> Completed</a>
+      <a href="#/incomplete" :class="{ active: view === 'incomplete' }"> Incomplete</a>
+    </nav>
+
+    
     <div class="status">
-      ✅ Completed: {{ completedTasks.length }} | 
+      ✅ Completed: {{ completedTasks.length }} |
       ❌ Incomplete: {{ incompleteTasks.length }}
     </div>
 
-    <TaskList title="Incomplete Tasks" :tasks="incompleteTasks" @delete-task="deleteTask"
-      @toggle-status="toggleStatus" />
-
-    <TaskList title="Completed Tasks" :tasks="completedTasks" @delete-task="deleteTask" @toggle-status="toggleStatus" />
+  
+    <component
+      :is="currentView"
+      :tasks="tasks"
+      @add-task="addTask"
+      @delete-task="deleteTask"
+      @toggle-status="toggleStatus"
+    />
   </div>
 </template>
 
 <script>
-import TaskInput from './components/TaskInput.vue';
-import TaskList from './components/TaskList.vue';
+import Tasks from './pages/tasks.vue';
+import CompletedTasks from './pages/completed.vue';
+import IncompleteTasks from './pages/incompleted.vue';
 
 export default {
-  components: { TaskInput, TaskList },
+  components: { Tasks, CompletedTasks, IncompleteTasks },
   data() {
     return {
+      view: 'all', // default route
       tasks: [],
     };
   },
   computed: {
+    currentView() {
+      return {
+        all: 'Tasks',
+        completed: 'CompletedTasks',
+        incomplete: 'IncompleteTasks',
+      }[this.view];
+    },
     completedTasks() {
       return this.tasks.filter(task => task.completed);
     },
@@ -35,12 +57,9 @@ export default {
     },
   },
   methods: {
+    
     addTask(taskText) {
-      this.tasks.push({
-        id: Date.now(),
-        text: taskText,
-        completed: false,
-      });
+      this.tasks.push({ id: Date.now(), text: taskText, completed: false });
       this.saveTasks();
     },
     deleteTask(id) {
@@ -52,20 +71,33 @@ export default {
       if (task) task.completed = !task.completed;
       this.saveTasks();
     },
-  
-  saveTasks() {
+    saveTasks() {
       localStorage.setItem('vue-tasks', JSON.stringify(this.tasks));
     },
     loadTasks() {
       const stored = localStorage.getItem('vue-tasks');
-      if (stored) {
-        this.tasks = JSON.parse(stored);
-      }
+      if (stored) this.tasks = JSON.parse(stored);
     },
+
+    updateViewFromHash() {
+      const hash = window.location.hash;
+      if (hash.includes('completed')) {
+        this.view = 'completed';
+      } else if (hash.includes('incomplete')) {
+        this.view = 'incomplete';
+      } else {
+        this.view = 'all';
+      }
+    }
   },
   created() {
-    this.loadTasks(); 
+    this.loadTasks();
+    this.updateViewFromHash();
+    window.addEventListener('hashchange', this.updateViewFromHash);
   },
+  beforeUnmount() {
+    window.removeEventListener('hashchange', this.updateViewFromHash);
+  }
 };
 </script>
 
@@ -80,15 +112,32 @@ export default {
   border: 5px solid white;
   border-radius: 10px;
 }
-.container h1{
+.container h1 {
   color: #FFD700;
 }
 .status {
   margin: 1rem 0;
-  color:whitesmoke;
+  color: whitesmoke;
   display: flex;
-  gap:20px;
+  gap: 20px;
   justify-content: center;
   align-items: center;
+}
+.nav {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 1rem;
+} 
+.nav a {
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  background-color: #A0C4FF;
+  color: black;
+  text-decoration: none;
+  font-weight: bold;
+}
+.nav a.active {
+  background-color: #FFD700;
 }
 </style>
